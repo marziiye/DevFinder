@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 
 from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -35,15 +36,13 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
-def profileUpdated(sender, instance, created, **kwargs):
+@receiver(post_save, sender = Profile)
+def CrerateProfile(sender, instance, created, **kwargs):
     print('Profile saved!')
     print('Instance:', instance)
     print('Created:', created)
 
 
+@receiver(post_delete, sender=Profile)
 def deleteUser(sender, instance, **kwargs):
     print('Deleting user...')
-
-
-post_save.connect(profileUpdated, sender = Profile)
-post_delete.connect(deleteUser, sender = Profile)
