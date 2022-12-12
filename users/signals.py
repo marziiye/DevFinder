@@ -17,8 +17,7 @@ def CrerateProfile(sender, instance, created, **kwargs):
             name=user.first_name,
         )
 
-
 @receiver(post_delete, sender=Profile)
 def deleteUser(sender, instance, **kwargs):
-    user = instance.profile
+    user = instance.user
     user.delete()
