@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 @receiver(post_save, sender=User)
 def CrerateProfile(sender, instance, created, **kwargs):
+    print('Profile signal triggered')
     if created:
         user = instance
         profile = Profile.objects.create(
